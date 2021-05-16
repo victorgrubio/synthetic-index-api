@@ -50,11 +50,16 @@ class IndexService(object):
     
     def add_data(request_dto):
         items = []
+        # Iterate over respones values
         for item in request_dto.values:
+            # Create entities
             security_price = SecurityPrice()
             for key, value in item.items():
+                # iterate over dict values and setattr to entity in db
                 setattr(security_price, key, value)
+            # Append to items that will be inserted
             items.append(security_price)
         app.logger.info(f'Inserted into database: {request_dto.values}')
+        # Insert into db
         db.session.bulk_save_objects(items)
         db.session.commit()
