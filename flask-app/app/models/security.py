@@ -3,6 +3,7 @@ from sqlalchemy import Column
 from sqlalchemy import Integer, Float, DateTime, String, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import Null
+from sqlalchemy.sql.schema import ForeignKey
 from models import db
 
 
@@ -14,20 +15,15 @@ class Security(db.Model):
     weight = Column(Float, nullable=False)
 
     @staticmethod
-    def get_by_id(id):
-        return Security.query.get(id)
-    
-    @staticmethod
     def get_all():
         return Security.query.all()
 
 
+class SecurityPrice(db.Model):
 
-@db.event.listens_for(Security, "after_insert")
-def recalculate_index(mapper, connection, target):
-    app.logger.info('NEW SECURITY INDEX')
+    __tablename__ = 'Security_price'
+    id_security_price = Column(Integer, primary_key=True, autoincrement=True)
+    id_security = Column(Integer, ForeignKey("Security.id_security"))
+    price = Column(Float, nullable=False)
+    date = Column(DateTime, default=datetime.now(), nullable=False)
 
-# class SecuritySchema(SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = Security
-#         load_instance = True

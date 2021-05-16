@@ -10,7 +10,6 @@ def create_app(config_object='config.DevelopmentConfig'):
     # Setup CORS
     app.config.from_object(config_object)
     CORS(app, resources={r"/*": {"origins": app.config['ORIGINS']}})
-
     # Register Swagger
     swagger = Swagger(app)
     # Register DB

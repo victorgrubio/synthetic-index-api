@@ -1,1 +1,1 @@
-from .body.index import SynteticIndexReponse
+from .body.index import SyntheticIndexReponse

@@ -1,4 +1,5 @@
-from models import Security
+from flask.globals import request
+from models import Security, SecurityPrice
 import pandas as pd
 import numpy as np
 from flask import current_app as app
@@ -9,13 +10,18 @@ class IndexService(object):
     
     @classmethod
     def get_syntetic_index(cls):
+        # Add app context to work with db
         with app.app_context():
+            # Get securities
             securities = Security.get_all()
+            # Get index price
             index_price = [100]
+            # Get returns per security
             return_security_array = [
                 cls.get_return_per_security(security)
                 for security in securities
             ]
+            # Compute the index
             for index, item in enumerate(return_security_array[:]):
                 index_price.append(index_price[index]*(1+sum(item)))
             return index_price
@@ -41,3 +47,14 @@ class IndexService(object):
         security_return = [security.weight*(item/array[i] - 1) for i, item in enumerate(array[1:])]
         app.logger.info(f'{security.name}: RETURN {security_return}')
         return security_return
+    
+    def add_data(request_dto):
+        items = []
+        for item in request_dto.values:
+            security_price = SecurityPrice()
+            for key, value in item.items():
+                setattr(security_price, key, value)
+            items.append(security_price)
+        app.logger.info(f'Inserted into database: {request_dto.values}')
+        db.session.bulk_save_objects(items)
+        db.session.commit()
