@@ -6,6 +6,4 @@ from typing import List
 
 @dataclass
 class SynteticIndexReponse:
-    name: str = "Legend of Zelda: BOTW"
-    game_id: int = 3242223
-    genre: str = "RPG"
+    values: List[float] = field(default_factory=list)

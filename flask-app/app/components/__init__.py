@@ -1,0 +1,1 @@
+from .indexes.handler import indexes_blueprint

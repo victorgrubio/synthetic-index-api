@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:8.0.15
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wealth
+    volumes:
+      - ./sql_init_data:/docker-entrypoint-initdb.d/:ro
+      - sql_data:/var/lib/mysql_db
+    command: mysqld --default-authentication-plugin=mysql_native_password --skip-mysqlx
+    container_name: mysql_db
+  flask:
+    build: ./flask-app
+    container_name: flask
+    environment:
+      - APP_NAME=MyFlaskApp
+      - API_PORT=3000
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+  
+volumes:
+  sql_data:
