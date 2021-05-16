@@ -29,6 +29,10 @@ class IndexService(object):
 
     @staticmethod
     def get_return_per_security(security):
+        # Query explanation:
+        # Get date and price of all security values
+        # Joined by condition of max_date per day
+        # One query per security
         sql_df = pd.read_sql(
             """SELECT date, price FROM Security_price s
                 JOIN (SELECT MAX(ss.date) 'maxtimestamp'
@@ -47,6 +51,7 @@ class IndexService(object):
         security_return = [security.weight*(item/array[i] - 1) for i, item in enumerate(array[1:])]
         app.logger.info(f'{security.name}: RETURN {security_return}')
         return security_return
+    
     
     def add_data(request_dto):
         items = []
