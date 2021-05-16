@@ -1,7 +1,7 @@
 marshmallow==3.12.1
 apispec==4.4.1
 gunicorn==20.0.4
-gevent==1.4.0
+gevent==20.9.0
 SQLAlchemy==1.4.15
 Flask==2.0.0
 Flask-Cors==3.0.10
@@ -10,4 +10,4 @@ flasgger==0.9.5
 numpy==1.19.5
 pandas==1.1.5
 mysql-connector-python==8.0.25
-mysqlclient
+mysqlclient==2.0.2

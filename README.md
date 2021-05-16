@@ -6,6 +6,10 @@ Module to obtain and insert synthetic index data based on two different securiti
 
 A Flask app has been created to calculate the index value based on the current database data. It is also able to process the data from external processes and insert it into the database.
 
+We have used MySQL8 for the database.
+
+Docker and docker-compose have been used to deploy the system.
+
 
 <br>
 
@@ -123,3 +127,16 @@ volumes:
 * Improve Flask App docker image size
 * Flask database credentials
 
+##  Run
+
+Run in a shell terminal:
+
+```bash
+docker-compose up -d
+```
+
+Then the application will be deployed at [http://localhost:3000/](http://localhost:3000/)
+
+To get data use http://localhost:3000/indexes/synthetic
+
+To send data use http://localhost:3000/indexes/synthetic/data

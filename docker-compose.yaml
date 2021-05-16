@@ -12,12 +12,17 @@ services:
       - sql_data:/var/lib/mysql_db
     command: mysqld --default-authentication-plugin=mysql_native_password --skip-mysqlx
     container_name: mysql_db
+    expose:
+      - 3306
   flask:
+    image: victorgrubio/synthetic-index:1.0.0
     build: ./flask-app
     container_name: flask
     environment:
       - APP_NAME=MyFlaskApp
       - API_PORT=3000
+      - SQL_HOST=mysql_db
+      - SQL_PORT=3306
     expose:
       - 3000
     ports:
